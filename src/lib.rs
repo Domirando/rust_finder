@@ -4,12 +4,11 @@ use std::env;
 
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    println!("{}", read_to_string(config.filename).unwrap());
-	// let contents = fs::read_to_string(config.filename)?;
-	//for line in read_to_string(config.filename).unwrap().lines() {
-	  //  println!("{}", line.to_string());
-        // result.push(line.to_string())
-        //}
+	let contents = read_to_string(config.filename)?;
+	for line in contents.lines() {
+	    println!("{}", line.to_string());
+        //result.push(line.to_string())
+    }
 	// println!("with text:\n{}", result);
 	// let results = if config.case_sensitive {
 	//     search(&config.query, &contents)
@@ -36,7 +35,7 @@ impl Config {
 		let query = args[0].clone();
 		let filename = args[1].clone();
 		let case_sensitive = env::var(args[2].clone()).is_err();
-		println!("{}", case_sensitive);
+		//println!("{}", case_sensitive);
 		Ok( Config { query, filename, case_sensitive } )
 	}
 }	
