@@ -3,4 +3,6 @@ name = "rust_finder"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
+[[bin]]
+name = "rust_finder"
+path = "src/main.rs"
