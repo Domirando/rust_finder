@@ -14,16 +14,22 @@
           inherit system;
           overlays = [ rust-overlay.overlays.default ];
         };
-      in {
-        packages.default = pkgs.rustPlatform.buildRustPackage {
+        rust = pkgs.rust-bin.stable.latest.default;
+        rustPackage = pkgs.rustPlatform.buildRustPackage {
           pname = "rust_finder";
           version = "0.1";
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
         };
+      in {
+        packages.default = rustPackage;
+
+        apps.default = flake-utils.lib.mkApp {
+          drv = rustPackage;
+        };
 
         devShells.default = pkgs.mkShell {
-          buildInputs = [ pkgs.rust-bin.stable.latest.default ];
+          buildInputs = [ rust ];
         };
       });
 }
