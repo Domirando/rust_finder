@@ -3,19 +3,21 @@ use std::error::Error;
 use std::env;
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-	let s = config.filename.trim().split('\\').next().unwrap_or(&config.filename);
-	let contents = read_to_string(s)?;
-	for line in contents.lines() {
-	    println!("{}", line.to_string());
-    }
-	let results = if (&config.case_sensitive == "yes") {
-	    search(&config.query, &contents)
+    let query = config.query.trim().split("\\").next().unwrap_or(&config.query);
+	let filename = config.filename.trim().split('\\').next().unwrap_or(&config.filename);
+	let sensitivity = config.case_sensitive.trim().split("\\").next().unwrap_or(&config.case_sensitive);
+	let contents = read_to_string(filename)?;
+	let results = if (sensitivity == "yes") {
+	    search(query, &contents)
 	} else {
-	    search_case_insensitive(&config.query, &contents)
+	    search_case_insensitive(query, &contents)
 	};   
-	for line in &results {
-	    println!("so here is the finding - {:?}", results);
+	if results.len() >= 1 {
+        println!("\nso here is the finding - {:?}", results);
+	}else {
+	    println!("\nno matches");
 	}
+	
 	Ok(())
 }
 
