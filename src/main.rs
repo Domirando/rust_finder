@@ -1,10 +1,12 @@
 // extern crate cliRustApp;
 use std::env;
 use std::process;
-use rust_finder::Config;
+use func::Config;
 use std::io;
 
-fn main() {
+mod func;
+
+fn main(){
     println!("Please enter a word/phrase you are looking for:"); 
     let mut search_input = String::new();
     io::stdin().read_line(&mut search_input).expect("failed to read line");
@@ -23,7 +25,7 @@ fn main() {
         process::exit(1);
     });
     
-    if let Err(e) = rust_finder::run(config) {
+    if let Err(e) = func::run(config) {
         println!("application error: {}", e);
         process::exit(1);
     } 

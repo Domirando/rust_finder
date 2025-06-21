@@ -2,29 +2,27 @@ use std::fs::read_to_string;
 use std::error::Error;
 use std::env;
 
-
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-	let contents = read_to_string(config.filename)?;
+	let s = config.filename.trim().split('\\').next().unwrap_or(&config.filename);
+	let contents = read_to_string(s)?;
 	for line in contents.lines() {
 	    println!("{}", line.to_string());
-        //result.push(line.to_string())
     }
-	// println!("with text:\n{}", result);
-	// let results = if config.case_sensitive {
-	//     search(&config.query, &contents)
-	// } else {
-	//     search_case_insensitive(&config.query, &contents)
-	// };   
-	// for line in search(&config.query, &contents) {
-	//     println!("so here is the finding - {}", line)
-	// }
+	let results = if (&config.case_sensitive == "yes") {
+	    search(&config.query, &contents)
+	} else {
+	    search_case_insensitive(&config.query, &contents)
+	};   
+	for line in &results {
+	    println!("so here is the finding - {:?}", results);
+	}
 	Ok(())
 }
 
 pub struct Config {
 	pub query: String,
 	pub filename: String,
-	pub case_sensitive: bool,
+	pub case_sensitive: String,
 }
 
 impl Config {
@@ -34,8 +32,7 @@ impl Config {
 		}               
 		let query = args[0].clone();
 		let filename = args[1].clone();
-		let case_sensitive = env::var(args[2].clone()).is_err();
-		//println!("{}", case_sensitive);
+		let case_sensitive = args[2].clone();
 		Ok( Config { query, filename, case_sensitive } )
 	}
 }	
