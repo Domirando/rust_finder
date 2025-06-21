@@ -1,7 +1,9 @@
-{ pkgs ? import <nixpkgs> { } }:
-    pkgs.rustPlatform.buildRustPackage rec {
-    pname = "rust_finder";
-    version = "0.1";
-    cargoLock.lockFile = ./Cargo.lock; 
-    src = pkgs.lib.cleanSource ./.;
+{ pkgs ? import <nixpkgs> { }, src ? ./. }:
+
+let theSource = src; in
+pkgs.rustPlatform.buildRustPackage rec {
+  pname = "rust_finder";
+  version = "0.1";
+  src = pkgs.lib.cleanSource "${theSource}";
+  cargoLock.lockFile = "${theSource}/Cargo.lock";
 }
