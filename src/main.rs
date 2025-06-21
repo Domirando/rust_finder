@@ -13,7 +13,7 @@ fn main() {
     let mut file_input = String::new();
     io::stdin().read_line(&mut file_input).expect("failed to read line");
     
-    println!("Do you want me to be case sensitivie? (yes/no"); 
+    println!("Do you want me to be case sensitivie? (yes/no)"); 
     let mut sensitivity_input = String::new();
     io::stdin().read_line(&mut sensitivity_input).expect("failed to read line");
     
