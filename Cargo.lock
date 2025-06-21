@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "cliRustApp"
+name = "rust_finder"
 version = "0.1.0"
