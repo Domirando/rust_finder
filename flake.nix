@@ -15,17 +15,18 @@
           overlays = [ rust-overlay.overlays.default ];
         };
         rust = pkgs.rust-bin.stable.latest.default;
-        rustPackage = pkgs.rustPlatform.buildRustPackage {
+
+        rust_finder = pkgs.rustPlatform.buildRustPackage {
           pname = "rust_finder";
-          version = "0.1";
+          version = "0.1.0";
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
         };
       in {
-        packages.default = rustPackage;
+        packages.default = rust_finder;
 
         apps.default = flake-utils.lib.mkApp {
-          drv = rustPackage;
+          drv = rust_finder;
         };
 
         devShells.default = pkgs.mkShell {
