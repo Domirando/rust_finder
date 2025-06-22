@@ -26,8 +26,6 @@
           drv = rust_finder;
         };
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = [ pkgs.rustc pkgs.cargo ];
-        };
+        devShells.default = import ./shell.nix pkgs;
       });
 }
