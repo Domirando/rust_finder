@@ -1,20 +1,17 @@
 {
-  description = "Rust CLI tool";
+  description = "Rust CLI tool using nixpkgs rust";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }:
+  outputs = { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ rust-overlay.overlays.default ];
         };
-        rust = pkgs.rust-bin.stable.latest.default;
 
         rust_finder = pkgs.rustPlatform.buildRustPackage {
           pname = "rust_finder";
@@ -30,7 +27,7 @@
         };
 
         devShells.default = pkgs.mkShell {
-          buildInputs = [ rust ];
+          buildInputs = [ pkgs.rustc pkgs.cargo ];
         };
       });
 }
