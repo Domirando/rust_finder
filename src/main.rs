@@ -14,14 +14,24 @@ fn main(){
     io::stdin().read_line(&mut search_input).expect("failed to read line");
     
     println!("Please provide a file name:"); 
+    // let mut file_input = String::new();
+    // io::stdin().read_line(&mut file_input).expect("failed to read line");
+    
     let mut file_input = String::new();
     io::stdin().read_line(&mut file_input).expect("failed to read line");
+    let file_input = file_input.trim();
+    let file_input = if file_input.is_empty() {
+        "poem.txt"
+    } else {
+        file_input
+    };
     
     println!("Do you want me to be case sensitivie? (yes/no)"); 
     let mut sensitivity_input = String::new();
     io::stdin().read_line(&mut sensitivity_input).expect("failed to read line");
     
-    let args: Vec<String> = vec![search_input, "poem.txt".to_string(), sensitivity_input];
+    let args: Vec<String> = vec![search_input, file_input.to_string(), sensitivity_input];
+    
     let config = Config::new(&args).unwrap_or_else(|err| {
         println!("Problem parsing argument: {}", err);
         process::exit(1);

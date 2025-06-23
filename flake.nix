@@ -25,13 +25,7 @@
         apps.default = flake-utils.lib.mkApp {
           drv = rust_finder;
         };
-        installPhase = ''
-            runHook preInstall
-            mkdir -p $out/bin
-            cp target/release/rust_finder $out/bin/
-            cp ${./poem.txt} $out/bin/poem.txt
-            runHook postInstall
-        '';
+
         devShells.default = import ./shell.nix pkgs;
       });
 }
