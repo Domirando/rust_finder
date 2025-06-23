@@ -13,7 +13,7 @@ fn main(){
     let mut search_input = String::new();
     io::stdin().read_line(&mut search_input).expect("failed to read line");
     
-    println!("Please provide a file name:"); 
+    println!("Please provide a file location (by default the project will run poem.txt file:)"); 
     // let mut file_input = String::new();
     // io::stdin().read_line(&mut file_input).expect("failed to read line");
     
