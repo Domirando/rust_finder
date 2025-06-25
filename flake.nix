@@ -19,7 +19,13 @@
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
         };
-      in {
+        
+        meta = with pkgs.lib; {
+          description = "cli app";
+          license = liceses.mit;
+          platforms = platforms.all;
+        };
+        in {
         packages.default = rust_finder;
 
         apps.default = flake-utils.lib.mkApp {

@@ -3,7 +3,6 @@ use std::env;
 use std::process;
 use func::Config;
 use std::io;
-
 mod func;
 
 fn main(){
@@ -12,11 +11,9 @@ fn main(){
     println!("Please enter a word/phrase you are looking for:"); 
     let mut search_input = String::new();
     io::stdin().read_line(&mut search_input).expect("failed to read line");
+    let create_file = String::new();
     
-    println!("Please provide a file location (by default the project will run poem.txt file:)"); 
-    // let mut file_input = String::new();
-    // io::stdin().read_line(&mut file_input).expect("failed to read line");
-    
+    println!("Please provide a file location (by default the project will run poem.txt file:)");  
     let mut file_input = String::new();
     io::stdin().read_line(&mut file_input).expect("failed to read line");
     let file_input = file_input.trim();

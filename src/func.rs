@@ -62,3 +62,27 @@ pub fn search_case_insensitive<'a>(
     }
     results
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_case_sensitive_search() {
+        let query = "world";
+        let contents = "\
+            Hello world
+            helloooo
+            ";
+        assert_eq!(search(query, contents), vec!["Hello world"]);
+    }
+    
+    #[test]
+    fn test_case_insensitive_search() {
+        let query = "rUsT";
+        let contents = "\
+            Rust is good
+            it works";
+        assert_eq!(search_case_insensitive(query, contents), vec!["Rust is good"]);
+    }
+    }
