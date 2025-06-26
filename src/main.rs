@@ -6,6 +6,7 @@ fn main(){
         File,
         CaseSensitivity,
     }
+    
     fn request_messages(req: Request) -> String {
         match req {
             Request::Query => "Please enter a word/phrase you are looing for".to_string(),
@@ -13,6 +14,7 @@ fn main(){
             Request::CaseSensitivity => "Do you want the search be case sensitive? (yes/no)".to_string()
         }
     }
+    
     let mut search = input(request_messages(Request::File));
     let mut query = input(request_messages(Request::Query));
     let mut case_sensitivity = input(request_messages(Request::CaseSensitivity));
