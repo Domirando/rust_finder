@@ -1,8 +1,9 @@
 use std::fs::read_to_string;
 use std::error::Error;
 use std::env;
-
+use config::Config
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let [query, filename, sensitivity] = config.iter().map(|&x| x.trim().split("\\").next().unwrap_or(&x)).collect();
     let query = config.query.trim().split("\\").next().unwrap_or(&config.query);
 	let filename = config.filename.trim().split('\\').next().unwrap_or(&config.filename);
 	let sensitivity = config.case_sensitive.trim().split("\\").next().unwrap_or(&config.case_sensitive);
@@ -20,24 +21,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 	
 	Ok(())
 }
-
-pub struct Config {
-	pub query: String,
-	pub filename: String,
-	pub case_sensitive: String,
-}
-
-impl Config {
-	pub fn new(args: &[String]) -> Result<Config, &str> {
-	    if args.len() < 2 {
-			return Err("not enough arguments"); 
-		}               
-		let query = args[0].clone();
-		let filename = args[1].clone();
-		let case_sensitive = args[2].clone();
-		Ok( Config { query, filename, case_sensitive } )
-	}
-}	
+	
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
     for line in contents.lines() {

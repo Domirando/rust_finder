@@ -1,39 +1,32 @@
-// extern crate cliRustApp;
-use std::env;
-use std::process;
-use func::Config;
 use std::io;
-mod func;
 
 fn main(){
-    // let file = File::open("poem.txt");
-    // const POEM: &str = include_str!("poem.txt");
-    println!("Please enter a word/phrase you are looking for:"); 
-    let mut search_input = String::new();
-    io::stdin().read_line(&mut search_input).expect("failed to read line");
-    let create_file = String::new();
+    enum Request {
+        Query,
+        File,
+        CaseSensitivity,
+    }
+    fn request_messages(req: Request) -> String {
+        match req {
+            Request::Query => "Please enter a word/phrase you are looing for".to_string(),
+            Request::File => "Please provide a file location".to_string(),
+            Request::CaseSensitivity => "Do you want the search be case sensitive? (yes/no)".to_string()
+        }
+    }
+    let mut search = input(request_messages(Request::File));
+    let mut query = input(request_messages(Request::Query));
+    let mut case_sensitivity = input(request_messages(Request::CaseSensitivity));
+    println!("search: {}, query: {}, case sensitivity: {}", search, query, case_sensitivity);
+    fn input(request: String) -> String{
+        println!("{}", request); 
+        let mut response = String::new();
+        io::stdin().read_line(&mut response).expect("failed to read line");
+        let response = response.trim();
+        response = (request.contains("file") && response.is_empty()) => "poem.txt"; 
+        response.to_string()
+    }
     
-    println!("Please provide a file location (by default the project will run poem.txt file:)");  
-    let mut file_input = String::new();
-    io::stdin().read_line(&mut file_input).expect("failed to read line");
-    let file_input = file_input.trim();
-    let file_input = if file_input.is_empty() {
-        "poem.txt"
-    } else {
-        file_input
-    };
-    
-    println!("Do you want me to be case sensitivie? (yes/no)"); 
-    let mut sensitivity_input = String::new();
-    io::stdin().read_line(&mut sensitivity_input).expect("failed to read line");
-    
-    let args: Vec<String> = vec![search_input, file_input.to_string(), sensitivity_input];
-    
-    let config = Config::new(&args).unwrap_or_else(|err| {
-        println!("Problem parsing argument: {}", err);
-        process::exit(1);
-    });
-    
+    let config = Config::new(search, file.to_string(), case_sensitivity);
     if let Err(e) = func::run(config) {
         println!("application error: {}", e);
         process::exit(1);
